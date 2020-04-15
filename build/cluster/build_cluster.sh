@@ -106,7 +106,7 @@ echo ""
 DEBIAN_FRONTEND=noninteractive apt update && apt upgrade -y
 DEBIAN_FRONTEND=noninteractive apt install -y docker.io python-docker pv python-pip kubeadm kubelet kubectl \
                     geoipupdate docker-compose openvswitch-switch nfs-common \
-                    python3-pip sshpass expect
+                    python3-pip sshpass expect resolvconf
 
 # Disable rpcbind (service added from nfs-common install) so we can share nfs from our nfs container
 systemctl stop rpcbind
@@ -212,6 +212,16 @@ systemctl enable docker
 systemctl restart docker
 
 usermod -aG docker $user
+
+echo "--------------------------------------------------------"
+echo "| resetting the DNS since it got wiped out             |"
+echo "--------------------------------------------------------"
+echo ""
+
+echo "nameserver 1.1.1.1" > /etc/resolvconf/resolv.conf.d/head
+echo "nameserver 8.8.8.8" >> /etc/resolvconf/resolv.conf.d/head
+systemctl enable resolvconf
+systemctl restart resolvconf
 
 echo "--------------------------------------------------------"
 echo "| Initializing Kubernetes Cluster!                     |"
