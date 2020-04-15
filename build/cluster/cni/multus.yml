@@ -108,7 +108,7 @@ data:
       "kubeconfig": "/etc/cni/net.d/multus.d/multus.kubeconfig"
     }
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: kube-multus-ds-amd64
@@ -117,11 +117,15 @@ metadata:
     tier: node
     app: multus
 spec:
+  selector:
+    matchLabels:
+      name: kube-multus
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
+        name: kube-multus
         tier: node
         app: multus
     spec:
