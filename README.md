@@ -1,4 +1,4 @@
-This fork updates much of the configuration files and automates most of the process using Vagant with Virtualbox.
+This fork/branch updates much of the configuration files and automates most of the process using Vagant with Virtualbox.
 
 
 ------------------------------------------------------------------------
